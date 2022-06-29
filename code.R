@@ -1,4 +1,3 @@
-
 library(tidiverse)
 
 actas.web <- c("https://8cfe.congresoforestal.es/es/actas",
@@ -7,7 +6,6 @@ actas.web <- c("https://8cfe.congresoforestal.es/es/actas",
 titles.CFE8 <- c(NULL)
 
 for(a in 1:length(actas.web)){
-  
   actas <- rvest::read_html(actas.web[a])
   
   page <- 
@@ -21,13 +19,9 @@ for(a in 1:length(actas.web)){
   titles <- page[positions]
   
   titles.CFE8 <- c(titles.CFE8, titles)
-  
-  cat(a, " ")
 }
 
-
 keywords.CFE8 <- c(NULL)
-
 
 for(i in 1:length(titles.CFE8)){
 
@@ -49,11 +43,7 @@ for(i in 1:length(titles.CFE8)){
     
     keywords.CFE8 <- c(keywords.CFE8, keywords)
   }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-  
-  cat(i, " ")
 }
-
-#save(keywords.CFE8, file = "C:/Users/alber/Desktop/CFE8_keywords/keywords.RData")
 
 freq <- tibble(word = keywords.CFE8) %>%
   group_by(word) %>%
@@ -64,9 +54,3 @@ freq <- tibble(word = keywords.CFE8) %>%
   ungroup()
 
 wordcloud2::wordcloud2(data = freq %>% filter(n > 2), size=.4, shape = "diamond", ellipticity = 2)
-
-
-
-
-
-
